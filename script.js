@@ -1,10 +1,20 @@
 const canvas = document.querySelector("#canvas");
+const generateButton = document.querySelector("#generateButton");
 
-function fill() {
+fill(16, 16);
+generateButton.addEventListener("click", e => {
   let cols = document.querySelector("#sizePickerX").value;
   let rows = document.querySelector("#sizePickerY").value;
+  reset();
+  fill(cols, rows);
+});
 
-  canvas.style.width = `${25 * cols}px`;
+canvas.addEventListener("mouseover", e => {
+  if (e.target.id !== "canvas") darken(e.target);
+});
+
+function fill(cols, rows) {
+  // canvas.style.width = `${25 * cols}px`;
 
   for (let x = 0; x < cols; x++)
     for (let y = 0; y < rows; y++) {
@@ -12,25 +22,56 @@ function fill() {
       cell.classList.add("canvasCell");
       canvas.appendChild(cell);
       //console.log(getComputedStyle(cell).backgroundColor);
-      if(document.querySelector('#modePicker').value === 'rainbow')
-      {
-          let colorArray= [Math.floor(Math.random()*256), Math.floor(Math.random()*256), Math.floor(Math.random()*256)]
-          cell.style.backgroundColor='rgb('+`${colorArray[0]}`+','+`${colorArray[1]}`+','+`${colorArray[2]}`+')';
-      }
-      cell.setAttribute("data-darkenFactor", darkFactorCompute(cell));
+      cell.setAttribute("data-firstPass", "true");
+
+      cell.style.width = `${960 / cols}px`;
+      cell.style.height = `${960 / rows}px`;
     }
-  
 }
 
 function darken(element) {
+  if (element.getAttribute("data-firstPass") === "true") {
+    element.setAttribute("data-darkenFactor", darkFactorCompute(element));
+  }
+  if (
+    element.getAttribute("data-firstPass") === "true" &&
+    document.querySelector("#modePicker").value === "rainbow"
+  ) {
+    console.log(typeof element.getAttribute("data-firstPass"));
+    let colorArray = [
+      Math.floor(Math.random() * 256),
+      Math.floor(Math.random() * 256),
+      Math.floor(Math.random() * 256)
+    ];
+    element.style.backgroundColor =
+      "rgb(" +
+      `${colorArray[0]}` +
+      "," +
+      `${colorArray[1]}` +
+      "," +
+      `${colorArray[2]}` +
+      ")";
+    element.setAttribute("data-firstPass", "false");
+  }
+
   let darkenFactor = element.getAttribute("data-darkenFactor").split(",");
   let baseColor = getComputedStyle(element)
-  .backgroundColor.slice(4, -1)
-  .split(",");;
-  (baseColor[0]-darkenFactor[0]<0) ? element.style.backgroundColor = 'rgb(0,0,0)' : element.style.backgroundColor = 'rgb('+`${baseColor[0]-darkenFactor[0]}`+','+`${baseColor[1]-darkenFactor[1]}`+','+`${baseColor[2]-darkenFactor[2]}`+')';
-   
-
+    .backgroundColor.slice(4, -1)
+    .split(",");
+  let computedColor = [];
+  for(let x = 0; x<3; x++)
+  {
+  computedColor[x]= (baseColor[x] - darkenFactor[x] > 0) ? baseColor[x] - darkenFactor[x] : 0;
+  }
   
+    element.style.backgroundColor =
+        "rgb(" +
+        `${computedColor[0]}` +
+        "," +
+        `${computedColor[1]}` +
+        "," +
+        `${computedColor[2]}` +
+        ")";
 }
 
 function darkFactorCompute(element) {
@@ -40,13 +81,7 @@ function darkFactorCompute(element) {
     .split(",");
   // let r = rgb.slice(0,rgb.indexOf(','));
 
-  return (
-    `${(rgb[0]) / 10}` +
-    "," +
-    `${(rgb[1]) / 10}` +
-    "," +
-    `${(rgb[2]) / 10}`
-  );
+  return `${rgb[0] / 10}` + "," + `${rgb[1] / 10}` + "," + `${rgb[2] / 10}`;
 }
 
 function reset() {
@@ -55,12 +90,3 @@ function reset() {
     canvas.removeChild(element);
   });
 }
-
-document.querySelector("#generateButton").addEventListener("click", e => {
-  reset();
-  fill();
-});
-
-canvas.addEventListener("mouseover", e => {
-    if (e.target.id !== "canvas") darken(e.target);
-  });
