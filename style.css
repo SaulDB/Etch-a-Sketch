@@ -1,0 +1,82 @@
+*
+{
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+
+html
+{
+    background-color: black;
+}
+#title
+{
+    padding: 20px 0 50px 0;
+    display:flex;
+    justify-content: center;
+    color: #004953;
+    font-size: 5rem;
+    font-weight: 900;
+    text-shadow: 3px 3px 0px silver;
+}
+
+#menu
+{
+    height:40px;
+    margin:0 0 50px 0;
+    padding: 0 15vw 0 15vw;
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 900;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    align-items: center;
+}
+
+#menu>*
+{
+    margin: 0 10px 0 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    
+}
+
+#sizePickerX, #sizePickerY, #modePicker, #generateButton
+{
+    padding: 3px;
+    font-size: 1.5rem;
+    border: solid black thin;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#sizePickerX, #sizePickerY
+{
+    width:3rem;
+    margin-left: 3px;
+}
+
+#canvas
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    
+    overflow: hidden;
+    box-sizing: content-box;
+    border:solid thin silver;
+    border-radius: 15px;
+    
+}
+.canvasCell
+{
+    height:25px;
+    width:25px;
+    background-color: rgb(255, 255, 255);
+    display:inline-block;
+}

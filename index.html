@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Etch-a-Sketch</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="title">Etch-a-Sketch</div>
+
+    <div id="menu">
+      
+        Mode:
+        <select name="mode" id="modePicker">
+          <option value="bw">Black and White</option>
+          <option value="rainbow">Rainbow</option>
+        </select>
+      
+      <div>
+        Width (16-128): <input id="sizePickerX" type="text" name="sizeX" value="5" />
+      </div>
+      <div>
+        Height (16-128): <input id="sizePickerY" type="text" name="sizeY"  value="5"/>
+      </div>
+
+      <div>
+        <button id="generateButton">Generate!</button>
+      </div>
+    </div>
+
+    <div id="canvas"></div>
+  </body>
+  <script src="./script.js"></script>
+</html>
