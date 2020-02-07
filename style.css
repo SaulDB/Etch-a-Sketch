@@ -46,7 +46,7 @@ html
     
 }
 
-#sizePickerX, #sizePickerY, #modePicker, #generateButton
+#sizePickerX, #sizePickerY, #modePicker, #generateButton, #resetButton
 {
     padding: 3px;
     font-size: 1.5rem;

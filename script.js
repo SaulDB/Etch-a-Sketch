@@ -1,5 +1,7 @@
 const canvas = document.querySelector("#canvas");
 const generateButton = document.querySelector("#generateButton");
+const resetButton = document.querySelector('#resetButton');
+
 
 fill(16, 16);
 
@@ -10,9 +12,18 @@ generateButton.addEventListener("click", e => {
   fill(cols, rows);
 });
 
+resetButton.addEventListener("click", ()=>
+{
+let cols = rows = prompt('Enter Height and Width in Number of Squares:');
+reset();
+fill(cols, rows);
+})
+
 canvas.addEventListener("mouseover", e => {
   if (e.target.id !== "canvas") darken(e.target);
 });
+
+
 
 function fill(cols, rows) {
   // canvas.style.width = `${25 * cols}px`;
