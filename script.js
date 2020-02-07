@@ -2,6 +2,7 @@ const canvas = document.querySelector("#canvas");
 const generateButton = document.querySelector("#generateButton");
 
 fill(16, 16);
+
 generateButton.addEventListener("click", e => {
   let cols = document.querySelector("#sizePickerX").value;
   let rows = document.querySelector("#sizePickerY").value;
@@ -30,30 +31,14 @@ function fill(cols, rows) {
 }
 
 function darken(element) {
+  if (element.getAttribute("data-firstPass") === "true" &&  document.querySelector("#modePicker").value === "rainbow") 
+  {
+  rainbowFill(element); 
+  }
   if (element.getAttribute("data-firstPass") === "true") {
     element.setAttribute("data-darkenFactor", darkFactorCompute(element));
-  }
-  if (
-    element.getAttribute("data-firstPass") === "true" &&
-    document.querySelector("#modePicker").value === "rainbow"
-  ) {
-    console.log(typeof element.getAttribute("data-firstPass"));
-    let colorArray = [
-      Math.floor(Math.random() * 256),
-      Math.floor(Math.random() * 256),
-      Math.floor(Math.random() * 256)
-    ];
-    element.style.backgroundColor =
-      "rgb(" +
-      `${colorArray[0]}` +
-      "," +
-      `${colorArray[1]}` +
-      "," +
-      `${colorArray[2]}` +
-      ")";
     element.setAttribute("data-firstPass", "false");
   }
-
   let darkenFactor = element.getAttribute("data-darkenFactor").split(",");
   let baseColor = getComputedStyle(element)
     .backgroundColor.slice(4, -1)
@@ -61,7 +46,8 @@ function darken(element) {
   let computedColor = [];
   for(let x = 0; x<3; x++)
   {
-  computedColor[x]= (baseColor[x] - darkenFactor[x] > 0) ? baseColor[x] - darkenFactor[x] : 0;
+    console.log(x+': '+ baseColor[x] +'-'+ darkenFactor[x]);
+    computedColor[x]= (baseColor[x] - darkenFactor[x] > 0) ? baseColor[x] - darkenFactor[x] : 0;
   }
   
     element.style.backgroundColor =
@@ -72,6 +58,23 @@ function darken(element) {
         "," +
         `${computedColor[2]}` +
         ")";
+}
+
+function rainbowFill (element) 
+{
+  let colorArray = [
+    Math.floor(Math.random() * 256),
+    Math.floor(Math.random() * 256),
+    Math.floor(Math.random() * 256)
+  ];
+  element.style.backgroundColor =
+    "rgb(" +
+    `${colorArray[0]}` +
+    "," +
+    `${colorArray[1]}` +
+    "," +
+    `${colorArray[2]}` +
+    ")";
 }
 
 function darkFactorCompute(element) {
